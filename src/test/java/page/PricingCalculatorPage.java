@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -32,6 +30,11 @@ public class PricingCalculatorPage {
         WebElement seriesField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='md-text ng-binding'])[1]")));
         seriesField.click();
         return this;
+    }
+    public WebElement whatAreThereInstances(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebElement theseInstancesField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("input_101")));
+        return theseInstancesField;
     }
     public void selectSeries(String value){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));

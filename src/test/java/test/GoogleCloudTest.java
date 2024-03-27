@@ -1,45 +1,63 @@
 package test;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import driver.DriverSingleton;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.Assert;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
-import page.CommonPage;
 import page.HomePage;
 import page.PricingCalculatorPage;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import utils.ExtentManager;
 
 public class GoogleCloudTest {
-    private static final Logger logger = LogManager.getLogger(GoogleCloudTest.class);
-    //WebDriver driver = new ChromeDriver();
+    private static ExtentReports extent;
+    private static ExtentTest test;
     private static WebDriver driver;
+    private HomePage homePage;
+    private PricingCalculatorPage pricingCalculatorPage;
 
-    HomePage homePage;
-    PricingCalculatorPage pricingCalculatorPage;
+    @BeforeSuite
+    public void setUpExtentReports() {
+        extent = ExtentManager.getInstance();
+    }
 
     @BeforeMethod
-    public void setUp(){
-        //driver = DriverSingleton.getDriver();
+    public void setUp() {
         driver = new ChromeDriver();
         homePage = new HomePage(driver);
         pricingCalculatorPage = new PricingCalculatorPage(driver);
     }
+
     @AfterMethod(alwaysRun = true)
-    public void stopBrowser(){
+    public void tearDown(ITestResult result) {
+        if (result.getStatus() == ITestResult.FAILURE) {
+            test.log(Status.FAIL, "Test Failed: " + result.getName());
+            test.log(Status.FAIL, "Test Failed: " + result.getThrowable());
+        } else if (result.getStatus() == ITestResult.SUCCESS) {
+            test.log(Status.PASS, "Test Passed: " + result.getName());
+        } else {
+            test.log(Status.SKIP, "Test Skipped: " + result.getName());
+        }
         driver.quit();
     }
 
+    @AfterSuite
+    public void tearDownExtentReports() {
+        extent.flush();
+    }
+
     @Test(description = "Test case №123")
-    public void NavigationGoogleCloudTest() {
+    public void GoogleCloudTest() {
+        test = extent.createTest("Google Cloud Test");
         homePage.openGoogleCloud().clickOnSearch();
-        logger.info("Search bar is opened");
         homePage.enterTestInSearchBar("Google Cloud Platform Pricing Calculator").submitSearch();
-        logger.info("Search is performed");
         homePage.selectCalculator();
-        logger.info("Calculator page is opened");
         pricingCalculatorPage.enterNumberOfInstances("4");
+        Assert.assertEquals(pricingCalculatorPage.whatAreThereInstances().getText(), "");
         pricingCalculatorPage.clickOnSeries().selectSeries("n1");
         pricingCalculatorPage.clickOnMachineType().selectMachineType("n1-standard-8 (vCPUs: 8, RAM: 30GB)");
         pricingCalculatorPage
@@ -49,10 +67,6 @@ public class GoogleCloudTest {
                 .clickOnGPUNumbers()
                 .selectGPUNumber();
         pricingCalculatorPage.clickOnLocalSSD().selectLocalSSD("2x375 GB");
-        //pricingCalculatorPage.clickOnDatacenter().selectDatacenter();
-        //pricingCalculatorPage.clickOnCommittedUsage().selectCommittedUsage();
         pricingCalculatorPage.addToEstimate().emailEstimateClick();
-        logger.info("Email Estimate dindow is opened");
-        stopBrowser();
     }
 }
