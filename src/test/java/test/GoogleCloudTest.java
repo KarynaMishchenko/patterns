@@ -3,34 +3,18 @@ package test;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import driver.DriverSingleton;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import page.CommonConditions;
 import page.HomePage;
 import page.PricingCalculatorPage;
-import utils.ExtentManager;
 
-public class GoogleCloudTest {
-    private static ExtentReports extent;
+public class GoogleCloudTest extends CommonConditions {
+
     private static ExtentTest test;
-    private static WebDriver driver;
     private HomePage homePage;
     private PricingCalculatorPage pricingCalculatorPage;
-
-    @BeforeSuite
-    public void setUpExtentReports() {
-        extent = ExtentManager.getInstance();
-    }
-
-    @BeforeMethod
-    public void setUp() {
-        driver = new ChromeDriver();
-        homePage = new HomePage(driver);
-        pricingCalculatorPage = new PricingCalculatorPage(driver);
-    }
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
@@ -42,17 +26,14 @@ public class GoogleCloudTest {
         } else {
             test.log(Status.SKIP, "Test Skipped: " + result.getName());
         }
-        driver.quit();
     }
 
-    @AfterSuite
-    public void tearDownExtentReports() {
-        extent.flush();
-    }
 
     @Test(description = "Test case №123")
-    public void GoogleCloudTest() {
+    public void googleCloudTest() {
         test = extent.createTest("Google Cloud Test");
+        homePage = new HomePage(driver);  // Initialize homepage
+        pricingCalculatorPage = new PricingCalculatorPage(driver);  // Initialize pricing calculator page
         homePage.openGoogleCloud().clickOnSearch();
         homePage.enterTestInSearchBar("Google Cloud Platform Pricing Calculator").submitSearch();
         homePage.selectCalculator();

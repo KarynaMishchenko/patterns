@@ -23,7 +23,7 @@ public class HomePage {
             return this;
     }
     public void clickOnSearch(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement searchButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.KKOy5d")));
         Actions actions = new Actions(driver);
         actions.moveToElement(searchButton).click().perform();
