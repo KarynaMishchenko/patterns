@@ -11,14 +11,13 @@ import java.time.Duration;
 
 public class PricingCalculatorPage {
     protected WebDriver driver;
-    JavascriptExecutor js = (JavascriptExecutor) driver;
 
     public PricingCalculatorPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public void enterNumberOfInstances(String keyForNumberOfInstances) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement frameName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@name,'goog_')]")));
         driver.switchTo().frame(frameName);
         driver.switchTo().frame("myFrame");

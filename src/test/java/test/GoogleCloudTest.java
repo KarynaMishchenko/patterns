@@ -1,8 +1,6 @@
 package test;
 
-import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
 import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -12,21 +10,9 @@ import page.PricingCalculatorPage;
 
 public class GoogleCloudTest extends CommonConditions {
 
-    private static ExtentTest test;
     private HomePage homePage;
     private PricingCalculatorPage pricingCalculatorPage;
 
-    @AfterMethod(alwaysRun = true)
-    public void tearDown(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            test.log(Status.FAIL, "Test Failed: " + result.getName());
-            test.log(Status.FAIL, "Test Failed: " + result.getThrowable());
-        } else if (result.getStatus() == ITestResult.SUCCESS) {
-            test.log(Status.PASS, "Test Passed: " + result.getName());
-        } else {
-            test.log(Status.SKIP, "Test Skipped: " + result.getName());
-        }
-    }
 
 
     @Test(description = "Test case №123")
@@ -35,7 +21,7 @@ public class GoogleCloudTest extends CommonConditions {
         homePage = new HomePage(driver);  // Initialize homepage
         pricingCalculatorPage = new PricingCalculatorPage(driver);  // Initialize pricing calculator page
         homePage.openGoogleCloud().clickOnSearch();
-        homePage.enterTestInSearchBar("Google Cloud Platform Pricing Calculator").submitSearch();
+        homePage.enterTextInSearchBar("Google Cloud Platform Pricing Calculator").submitSearch();
         homePage.selectCalculator();
         pricingCalculatorPage.enterNumberOfInstances("4");
         Assert.assertEquals(pricingCalculatorPage.whatAreThereInstances().getText(), "");

@@ -1,49 +1,49 @@
 package page;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
 
 import java.time.Duration;
 
 
 public class HomePage {
     protected WebDriver driver;
+    private By searchButton  = By.cssSelector("div.KKOy5d");
+    private By searchBar = By.cssSelector("[id='i5']");
+    private By calculatorResult = By.xpath("(//a[@track-name='google cloud pricing calculator'])[2]");
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
 
 
     public HomePage openGoogleCloud(){
-            driver.get("https://cloud.google.com/");
-            return this;
+        driver.get("https://cloud.google.com/");
+        return this;
     }
     public void clickOnSearch(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement searchButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.KKOy5d")));
+        WebElement button = waitForElementVisibility(searchButton);
         Actions actions = new Actions(driver);
-        actions.moveToElement(searchButton).click().perform();
+        actions.moveToElement(button).click().perform();
     }
-    public HomePage enterTestInSearchBar(String string){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement searchBar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[id='i5']")));
-        searchBar.sendKeys(string);
+    public HomePage enterTextInSearchBar(String string){
+        waitForElementVisibility(searchBar);
+        driver.findElement(searchBar).sendKeys(string);
         return this;
     }
     public void submitSearch(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        WebElement searchBar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[id='i5']")));
-        // Press Enter key to submit the search
-        searchBar.sendKeys(Keys.ENTER);
+        waitForElementVisibility(searchBar);
+        driver.findElement(searchBar).sendKeys(Keys.ENTER);
     }
     public void selectCalculator(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        WebElement calculatorResult = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//a[@track-name='google cloud pricing calculator'])[2]")));
+        WebElement calculator = waitForElementVisibility(calculatorResult);
         Actions actions = new Actions(driver);
-        actions.moveToElement(calculatorResult).click().perform();
+        actions.moveToElement(calculator).click().perform();
+    }
+
+    private WebElement waitForElementVisibility(By locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 }

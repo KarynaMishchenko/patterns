@@ -9,7 +9,6 @@ import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import org.testng.annotations.AfterTest;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +63,7 @@ public class TestListener implements ITestListener {
     }
 
     private String getCurrentTimeAsString() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd_HH-mm-ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
         return ZonedDateTime.now().format(formatter);
     }
 
