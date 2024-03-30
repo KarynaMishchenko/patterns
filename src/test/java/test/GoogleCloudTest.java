@@ -10,16 +10,9 @@ import page.PricingCalculatorPage;
 
 public class GoogleCloudTest extends CommonConditions {
 
-    private HomePage homePage;
-    private PricingCalculatorPage pricingCalculatorPage;
-
-
-
     @Test(description = "Test case №123")
     public void googleCloudTest() {
         test = extent.createTest("Google Cloud Test");
-        homePage = new HomePage(driver);  // Initialize homepage
-        pricingCalculatorPage = new PricingCalculatorPage(driver);  // Initialize pricing calculator page
         homePage.openGoogleCloud().clickOnSearch();
         homePage.enterTextInSearchBar("Google Cloud Platform Pricing Calculator").submitSearch();
         homePage.selectCalculator();

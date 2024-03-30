@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -11,39 +13,64 @@ import java.time.Duration;
 
 public class PricingCalculatorPage {
     protected WebDriver driver;
+    @FindBy(xpath = "//iframe[contains(@name,'goog_')]")
+    private WebElement frameName;
+    @FindBy(xpath ="//md-input-container/child::input[@ng-model='listingCtrl.computeServer.quantity']" )
+    private WebElement numberOfInstancesField;
+    @FindBy(xpath = "(//div[@class='md-text ng-binding'])[1]")
+    private WebElement seriesField;
+    @FindBy(id = "input_101")
+    private WebElement theseInstancesField;
+    @FindBy(xpath = "(//div[@class='md-text ng-binding'])[2]")
+    private WebElement machineTypeField;
+    @FindBy(xpath = "//*[contains(text(), 'Add GPUs')]")
+    private WebElement addGPU;
+    @FindBy(xpath = "//md-select[@placeholder='GPU type']")
+    private WebElement GPUTypeField;
+    @FindBy(xpath = "//md-select[@placeholder='Number of GPUs']")
+    private WebElement GPUNumberField;
+    @FindBy(id = "select_option_520")
+    private WebElement GPUNumberValue;
+    @FindBy(xpath = "(//div[@class='md-text ng-binding'])[12]")
+    private WebElement localSSDField;
+    @FindBy(xpath = "(//div[@class='md-text ng-binding'])[13]")
+    private WebElement DatacenterField;
+    @FindBy(id = "select_option_338")
+    private WebElement DatacenterValue;
+    @FindBy(xpath = "//md-select[@placeholder='Committed usage']")
+    private WebElement committedUsage;
+    @FindBy(xpath = "//md-option[@ng-value = '1']")
+    private WebElement committedUsageValue;
+    @FindBy(xpath = "(//button[@class='md-raised md-primary cpc-button md-button md-ink-ripple'])[1]")
+    private WebElement addToEstimateField;
+    @FindBy(xpath = "(//span[@class='google-symbols ng-scope'])[47]")
+    private WebElement emailEstimateButton;
+
 
     public PricingCalculatorPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver , this);
     }
 
     public void enterNumberOfInstances(String keyForNumberOfInstances) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement frameName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//iframe[contains(@name,'goog_')]")));
-        driver.switchTo().frame(frameName);
+        driver.switchTo().frame(waitForElementVisibility(frameName));
         driver.switchTo().frame("myFrame");
-        WebElement numberOfInstancesField = driver.findElement(By.xpath("//md-input-container/child::input[@ng-model='listingCtrl.computeServer.quantity']"));
-        numberOfInstancesField.sendKeys(keyForNumberOfInstances);
+        waitForElementVisibility(numberOfInstancesField).sendKeys(keyForNumberOfInstances);
     }
     public PricingCalculatorPage clickOnSeries(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement seriesField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='md-text ng-binding'])[1]")));
-        seriesField.click();
+        waitForElementVisibility(seriesField).click();
         return this;
     }
     public WebElement whatAreThereInstances(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement theseInstancesField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("input_101")));
-        return theseInstancesField;
+        return waitForElementVisibility(theseInstancesField);
     }
-    public void selectSeries(String value){
+    public void selectSeries(String value){ // cannot create FindBy annotation because of variable in the xpath
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         WebElement seriesValue = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//md-option[contains(@value, '" + value + "')]")));
         seriesValue.click();
     }
     public PricingCalculatorPage clickOnMachineType(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement machineTypeField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='md-text ng-binding'])[2]")));
-        machineTypeField.click();
+        waitForElementVisibility(machineTypeField).click();
         return this;
     }
     public void selectMachineType(String value){
@@ -52,14 +79,11 @@ public class PricingCalculatorPage {
         machineTypeValue.click();
     }
     public PricingCalculatorPage addGPU(){
-        WebElement addGPU = driver.findElement(By.xpath("//*[contains(text(), 'Add GPUs')]"));
-        addGPU.click();
+        waitForElementVisibility(addGPU).click();
         return this;
     }
     public PricingCalculatorPage clickOnGPUType(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement GPUTypeField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//md-select[@placeholder='GPU type']")));
-        GPUTypeField.click();
+       waitForElementVisibility(GPUTypeField).click();
         return this;
     }
 
@@ -70,22 +94,16 @@ public class PricingCalculatorPage {
         return this;
     }
     public PricingCalculatorPage clickOnGPUNumbers(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement GPUNumberField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//md-select[@placeholder='Number of GPUs']")));
-        GPUNumberField.click();
+        waitForElementVisibility(GPUNumberField).click();
         return this;
     }
 
     public PricingCalculatorPage selectGPUNumber(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement GPUNumberValue = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("select_option_520")));
-        GPUNumberValue.click();
+        waitForElementVisibility(GPUNumberValue).click();
         return this;
     }
     public PricingCalculatorPage clickOnLocalSSD(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement localSSDField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='md-text ng-binding'])[12]")));
-        localSSDField.click();
+        waitForElementVisibility(localSSDField).click();
         return this;
     }
     public void selectLocalSSD(String value){
@@ -95,40 +113,33 @@ public class PricingCalculatorPage {
     }
 
     public PricingCalculatorPage clickOnDatacenter(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement DatacenterField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//div[@class='md-text ng-binding'])[13]")));
-        DatacenterField.click();
+        waitForElementVisibility(DatacenterField).click();
         return this;
     }
 
     public void selectDatacenter(){
         driver.switchTo().defaultContent();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement LocalSSDValue = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("select_option_338")));
-        LocalSSDValue.click();
+        waitForElementVisibility(DatacenterValue).click();
     }
 
     public PricingCalculatorPage clickOnCommittedUsage(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement DatacenterField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//md-select[@placeholder='Committed usage']")));
-        DatacenterField.click();
+        waitForElementVisibility(committedUsage).click();
         return this;
     }
     public void selectCommittedUsage(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement committedUsageValue = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//md-option[@ng-value = '1']")));
-        committedUsageValue.click();
+        waitForElementVisibility(committedUsageValue).click();
     }
     public PricingCalculatorPage addToEstimate(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement addToEstimateField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//button[@class='md-raised md-primary cpc-button md-button md-ink-ripple'])[1]")));
-        addToEstimateField.click();
+       waitForElementVisibility(addToEstimateField).click();
         return this;
     }
 
     public void emailEstimateClick(){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        WebElement emailEstimateButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//span[@class='google-symbols ng-scope'])[47]")));
-        emailEstimateButton.click();
+        waitForElementVisibility(emailEstimateButton).click();
 }
+    private WebElement waitForElementVisibility(WebElement locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        return locator;
+    }
 }

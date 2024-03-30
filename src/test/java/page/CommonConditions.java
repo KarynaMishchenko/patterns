@@ -21,13 +21,18 @@ public class CommonConditions{
 
     @AfterMethod(alwaysRun = true)
     public void tearDown(ITestResult result) {
-        if (result.getStatus() == ITestResult.FAILURE) {
-            test.log(Status.FAIL, "Test Failed: " + result.getName());
-            test.log(Status.FAIL, "Test Failed: " + result.getThrowable());
-        } else if (result.getStatus() == ITestResult.SUCCESS) {
-            test.log(Status.PASS, "Test Passed: " + result.getName());
-        } else {
-            test.log(Status.SKIP, "Test Skipped: " + result.getName());
+        if(driver != null) {
+            if (result.getStatus() == ITestResult.FAILURE) {
+                test.log(Status.FAIL, "Test Failed: " + result.getName());
+                test.log(Status.FAIL, "Test Failed: " + result.getThrowable());
+            } else if (result.getStatus() == ITestResult.SUCCESS) {
+                test.log(Status.PASS, "Test Passed: " + result.getName());
+            } else {
+                test.log(Status.SKIP, "Test Skipped: " + result.getName());
+            }
+        }
+        else{
+            System.out.println("Driver is null, skipping reporting.");
         }
     }
     @BeforeMethod()

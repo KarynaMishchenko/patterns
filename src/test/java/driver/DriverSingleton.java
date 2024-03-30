@@ -11,17 +11,14 @@ public class DriverSingleton {
 
     public static WebDriver getDriver() {
         if (driver == null) {
-            String browser = System.getProperty("browser", "edge"); // Default to Chrome if property is not set
-            switch (browser) {
-                case "edge":
-                    WebDriverManager.edgedriver();
-                    driver = new EdgeDriver();
-                    break;
-                case "chrome":
-                default:
-                    WebDriverManager.chromedriver();
+            String browser = System.getProperty("browser", "");
+           if(browser.equals("edge")) {
+               WebDriverManager.edgedriver().setup();
+               driver = new EdgeDriver();
+           }
+           else {
+                    WebDriverManager.chromedriver().setup();
                     driver = new ChromeDriver();
-                    break;
             }
             driver.manage().window().maximize();
         }

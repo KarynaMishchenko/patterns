@@ -1,49 +1,48 @@
 package page;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
 
-public class HomePage {
+public class HomePage{
     protected WebDriver driver;
-    private By searchButton  = By.cssSelector("div.KKOy5d");
-    private By searchBar = By.cssSelector("[id='i5']");
-    private By calculatorResult = By.xpath("(//a[@track-name='google cloud pricing calculator'])[2]");
+    @FindBy(xpath="(//a[@track-name='google cloud pricing calculator'])[2]")
+    private WebElement calculatorResult;
+    @FindBy(css = "div.YSM5S")
+    private WebElement searchButton;
+    @FindBy(css = "[id='i5']")
+    private WebElement searchBar;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver,this);
     }
-
-
     public HomePage openGoogleCloud(){
         driver.get("https://cloud.google.com/");
         return this;
     }
     public void clickOnSearch(){
-        WebElement button = waitForElementVisibility(searchButton);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(button).click().perform();
+        waitForElementVisibility(searchButton).click();
     }
     public HomePage enterTextInSearchBar(String string){
-        waitForElementVisibility(searchBar);
-        driver.findElement(searchBar).sendKeys(string);
+        waitForElementVisibility(searchBar).sendKeys(string);
         return this;
     }
     public void submitSearch(){
-        waitForElementVisibility(searchBar);
-        driver.findElement(searchBar).sendKeys(Keys.ENTER);
+        waitForElementVisibility(searchBar).sendKeys(Keys.ENTER);
     }
     public void selectCalculator(){
-        WebElement calculator = waitForElementVisibility(calculatorResult);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(calculator).click().perform();
+        waitForElementVisibility(calculatorResult).click();
     }
 
-    private WebElement waitForElementVisibility(By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    private WebElement waitForElementVisibility(WebElement locator) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        wait.until(ExpectedConditions.elementToBeClickable(locator));
+        return locator;
     }
 }
