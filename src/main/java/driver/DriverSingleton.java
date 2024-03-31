@@ -8,8 +8,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 public class DriverSingleton {
 
     private static WebDriver driver;
-
-
+    private DriverSingleton(){
+        //in order to not have ability to create instance of DriverSingleton object
+    }
     public static WebDriver getDriver() {
         if (driver == null) {
             String browser = System.getProperty("browser", "");
