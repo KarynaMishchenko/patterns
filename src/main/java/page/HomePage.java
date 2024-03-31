@@ -17,11 +17,15 @@ public class HomePage{
     private WebElement searchButton;
     @FindBy(css = "[id='i5']")
     private WebElement searchBar;
-
-    public HomePage(WebDriver driver) {
+    public String string;
+    public Integer integer;
+    public HomePage(WebDriver driver, String string, Integer integer) {
         this.driver = driver;
+        this.string=string;
+        this.integer=integer;
         PageFactory.initElements(driver,this);
     }
+
     public HomePage openGoogleCloud(){
         driver.get("https://cloud.google.com/");
         return this;

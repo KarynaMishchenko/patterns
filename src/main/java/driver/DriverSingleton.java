@@ -9,6 +9,7 @@ public class DriverSingleton {
 
     private static WebDriver driver;
 
+
     public static WebDriver getDriver() {
         if (driver == null) {
             String browser = System.getProperty("browser", "");

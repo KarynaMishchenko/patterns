@@ -13,6 +13,8 @@ import java.time.Duration;
 
 public class PricingCalculatorPage {
     protected WebDriver driver;
+    public String string;
+    public Integer integer;
     @FindBy(xpath = "//iframe[contains(@name,'goog_')]")
     private WebElement frameName;
     @FindBy(xpath ="//md-input-container/child::input[@ng-model='listingCtrl.computeServer.quantity']" )
@@ -46,10 +48,11 @@ public class PricingCalculatorPage {
     @FindBy(xpath = "(//span[@class='google-symbols ng-scope'])[47]")
     private WebElement emailEstimateButton;
 
-
-    public PricingCalculatorPage(WebDriver driver) {
+    public PricingCalculatorPage(WebDriver driver, String string, Integer integer) {
         this.driver = driver;
-        PageFactory.initElements(driver , this);
+        this.string=string;
+        this.integer=integer;
+        PageFactory.initElements(driver,this);
     }
 
     public void enterNumberOfInstances(String keyForNumberOfInstances) {

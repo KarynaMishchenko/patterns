@@ -1,5 +1,7 @@
 package page;
 
+import builder.HomePageBuilder;
+import builder.PricingCalculatorBuilder;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -39,9 +41,16 @@ public class CommonConditions{
     public void setUp()
     {
         driver = DriverSingleton.getDriver();
-        homePage = new HomePage(driver);
-        pricingCalculatorPage = new PricingCalculatorPage(driver);
-
+        pricingCalculatorPage = new PricingCalculatorBuilder()
+                .setDriver(driver)
+                .setString("Pricing test")
+                .setInteger(1)
+                .createPricingCalculatorPage();
+        homePage = new HomePageBuilder()
+                .setDriver(driver)
+                .setString("Example String")
+                .setInteger(123)
+                .createHomePage();
     }
     @AfterSuite
     public void tearDownExtentReports() {
