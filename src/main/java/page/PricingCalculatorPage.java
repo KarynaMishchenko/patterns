@@ -115,23 +115,6 @@ public class PricingCalculatorPage {
         LocalSSDValue.click();
     }
 
-    public PricingCalculatorPage clickOnDatacenter(){
-        waitForElementVisibility(DatacenterField).click();
-        return this;
-    }
-
-    public void selectDatacenter(){
-        driver.switchTo().defaultContent();
-        waitForElementVisibility(DatacenterValue).click();
-    }
-
-    public PricingCalculatorPage clickOnCommittedUsage(){
-        waitForElementVisibility(committedUsage).click();
-        return this;
-    }
-    public void selectCommittedUsage(){
-        waitForElementVisibility(committedUsageValue).click();
-    }
     public PricingCalculatorPage addToEstimate(){
        waitForElementVisibility(addToEstimateField).click();
         return this;

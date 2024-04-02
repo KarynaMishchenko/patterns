@@ -1,6 +1,5 @@
 package utils;
 
-import driver.DriverSingleton;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,6 +8,7 @@ import org.openqa.selenium.TakesScreenshot;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+import page.factory.DriverFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class TestListener implements ITestListener {
     }
 
     public void saveScreenshot(){
-        File screenCapture = ((TakesScreenshot)DriverSingleton
+        File screenCapture = ((TakesScreenshot) DriverFactory
                 .getDriver())
                 .getScreenshotAs(OutputType.FILE);
         try {

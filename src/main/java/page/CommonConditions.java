@@ -5,17 +5,19 @@ import builder.PricingCalculatorBuilder;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import driver.DriverSingleton;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import page.factory.DriverFactory;
 import utils.ExtentManager;
 import utils.TestListener;
+
+import java.sql.Driver;
 
 @Listeners({TestListener.class})
 public class CommonConditions{
 
-    protected WebDriver driver;
+    protected static WebDriver driver;
     protected static ExtentReports extent;
     protected static ExtentTest test;
     protected HomePage homePage;
@@ -40,13 +42,14 @@ public class CommonConditions{
     @BeforeMethod()
     public void setUp()
     {
-        driver = DriverSingleton.getDriver();
-        pricingCalculatorPage = new PricingCalculatorBuilder()
+        driver = DriverFactory.getDriver();
+
+        pricingCalculatorPage = new PricingCalculatorBuilder() //builder design pattern
                 .setDriver(driver)
                 .setString("Pricing test")
                 .setInteger(1)
                 .createPricingCalculatorPage();
-        homePage = new HomePageBuilder()
+        homePage = new HomePageBuilder() //builder design pattern
                 .setDriver(driver)
                 .setString("Example String")
                 .setInteger(123)
@@ -65,8 +68,13 @@ public class CommonConditions{
     @AfterMethod(alwaysRun = true)
     public void stopBrowser()
     {
-        DriverSingleton.closeDriver();
+        closeDriver();
     }
-
+    public static void closeDriver() {
+            if (driver != null) {
+                driver.quit();
+                driver = null;
+            }
+        }
 }
 
