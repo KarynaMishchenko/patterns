@@ -8,11 +8,9 @@ import com.aventstack.extentreports.Status;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-import page.factory.DriverFactory;
+import factory.DriverFactory;
 import utils.ExtentManager;
 import utils.TestListener;
-
-import java.sql.Driver;
 
 @Listeners({TestListener.class})
 public class CommonConditions{
@@ -23,9 +21,9 @@ public class CommonConditions{
     protected HomePage homePage;
     protected PricingCalculatorPage pricingCalculatorPage;
 
-    @AfterMethod(alwaysRun = true)
+    @AfterMethod
     public void tearDown(ITestResult result) {
-        if(driver != null) {
+        if (result != null) {
             if (result.getStatus() == ITestResult.FAILURE) {
                 test.log(Status.FAIL, "Test Failed: " + result.getName());
                 test.log(Status.FAIL, "Test Failed: " + result.getThrowable());
@@ -35,9 +33,8 @@ public class CommonConditions{
                 test.log(Status.SKIP, "Test Skipped: " + result.getName());
             }
         }
-        else{
-            System.out.println("Driver is null, skipping reporting.");
-        }
+
+        closeDriver();
     }
     @BeforeMethod()
     public void setUp()
@@ -65,11 +62,6 @@ public class CommonConditions{
         extent = ExtentManager.getInstance();
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void stopBrowser()
-    {
-        closeDriver();
-    }
     public static void closeDriver() {
             if (driver != null) {
                 driver.quit();
