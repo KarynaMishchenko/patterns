@@ -55,6 +55,9 @@ public class PricingCalculatorPage {
         PageFactory.initElements(driver,this);
     }
 
+    public PricingCalculatorPage(WebDriver driver) {
+    }
+
     public void enterNumberOfInstances(String keyForNumberOfInstances) {
         driver.switchTo().frame(waitForElementVisibility(frameName));
         driver.switchTo().frame("myFrame");

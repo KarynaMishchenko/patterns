@@ -1,8 +1,10 @@
 package builder;
+
 import org.openqa.selenium.WebDriver;
+import page.HomePage;
 import page.PricingCalculatorPage;
 
-public class PricingCalculatorBuilder implements Builder{
+public class PricingCalculatorBuilder {
 
     private WebDriver driver;
     private String string;

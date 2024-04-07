@@ -15,8 +15,9 @@ public class HomePage{
     private WebElement calculatorResult;
     @FindBy(css = "div.YSM5S")
     private WebElement searchButton;
-    @FindBy(css = "[id='i5']")
+    @FindBy(xpath = "(//input[@class='qdOxv-fmcmS-wGMbrd'])[1]")
     private WebElement searchBar;
+
     public String string;
     public Integer integer;
     public HomePage(WebDriver driver, String string, Integer integer) {
